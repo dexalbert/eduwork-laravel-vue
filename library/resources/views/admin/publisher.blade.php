@@ -32,7 +32,7 @@
                     <thead>
                         <tr>
                             <th>NO</th>
-                            <th class="text-center">Name</th>
+                            <th class="text-center">Name test</th>
                             <th class="text-center">Email</th>
                             <th class="text-center">Phone Number</th>
                             <th class="text-center">Address</th>
@@ -70,7 +70,7 @@
         <div class="modal-content">
             <form method="post" :action="actionUrl" autocomplete="off">
                 <div class="modal-header">
-                    <h4 class="modal-title">Author</h4>
+                    <h4 class="modal-title">Publisher</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -80,23 +80,23 @@
                     <input type="hidden" name="_method" value="PUT" v-if="editStatus">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Enter Author Name"
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Enter Publisher Name"
                             required="" :value="data.name">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" name="email" id="email"
-                            placeholder="Enter Author Email" required="" :value="data.email">
+                            placeholder="Enter Publisher Email" required="" :value="data.email">
                     </div>
                     <div class="form-group">
                         <label for="phone_number">Phone Number</label>
                         <input type="number" class="form-control" name="phone_number" id="phone_number"
-                            placeholder="Enter Author Phone Number" required="" :value="data.phone_number">
+                            placeholder="Enter Publisher Phone Number" required="" :value="data.phone_number">
                     </div>
                     <div class="form-group">
                         <label for="address">Address</label>
                         <input type="text" class="form-control" name="address" id="address"
-                            placeholder="Enter Author Address" required="" :value="data.address">
+                            placeholder="Enter Publisher Address" required="" :value="data.address">
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
@@ -127,53 +127,28 @@
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 <script type="text/javascript">
-    $(function () {
-    $("#publishertables").DataTable();
-    // $('#example2').DataTable({
-    //   "paging": true,
-    //   "lengthChange": false,
-    //   "searching": false,
-    //   "ordering": true,
-    //   "info": true,
-    //   "autoWidth": false,
-    //   "responsive": true,
-    // });
-  });
-</script>
-<!-- CRUD -->
-    <script type="text/javascript">
-        var controller = new Vue({
-            el: '#controller',
-            data: {
-                data : {},
-                actionUrl : '{{url('publishers')}}',
-                editStatus : false
-            },
-            mounted: function () {
+    var actionUrl = '{{url ('publishers') }}';
+    var apiUrl = '{{url ('api/publishers') }}';
 
-            },
-            methods: {
-                addData() {
-                    this.data = {};
-                    this.actionUrl = '{{ url('publishers') }}';
-                    this.editStatus = false;
-                    $('#modal-default').modal();
-                },
-                editData(data) {
-                    this.data = data;
-                    this.actionUrl = '{{ url('publishers') }}'+'/'+data.id;
-                    this.editStatus = true;
-                    $('#modal-default').modal();
-                },
-                deleteData(id) {
-                    this.actionUrl = '{{ url('publishers') }}'+'/'+id;
-                    if (confirm("Are you sure?")) {
-                        axios.post(this.actionUrl, {_method: 'DELETE'}).then(response => {
-                            location.reload();
-                        });
-                    }
-                }
-            }
-        });
-    </script>
+    var columns = [
+        {data: 'id', class: 'text-center', orderable: true},
+        {data: 'name', class: 'text-center', orderable: true},
+        {data: 'email', class: 'text-center', orderable: true},
+        {data: 'phone_number', class: 'text-center', orderable: true},
+        {data: 'address', class: 'text-center', orderable: true},
+        {data: 'created_at', class: 'text-center', orderable: true},
+        {data: 'updated_at', class: 'text-center', orderable: true},
+        {render: function(index, row, data, meta){
+            console.log(meta.row);
+            return `
+            <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, ${meta.row})">
+                Edit
+            </a>
+            <a href="#" class="btn btn-danger btn-sm" onclick="controller.deleteData(event, ${data.id}))">
+                Delete
+            </a>`;
+        }, orderable: false, width: '200px', class: 'text-center'},
+    ];
+</script>
+<script src="{{ asset('js/data.js') }}"></script>
 @endsection

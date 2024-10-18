@@ -15,7 +15,7 @@
         <div class="card">
             <div class="card-header">
                 <a href="#" @click="addData()" class="btn btn-success"> Create New Author</a>
-                <div class="card-tools">
+                {{-- <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
                         <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
                         <div class="input-group-append">
@@ -24,41 +24,74 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <div class="card-body">
-                <table id="authortables" class="table table-bordered table-head-fixed table-striped">
-                    <thead>
-                        <tr>
-                            <th>NO</th>
-                            <th class="text-center">Name</th>
-                            <th class="text-center">Email</th>
-                            <th class="text-center">Phone Number</th>
-                            <th class="text-center">Address</th>
-                            <th class="text-center">Created At</th>
-                            <th class="text-center">Updated At</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($authors as $key => $author)
-                        <tr>
-                            <td>{{ $key+1 }}</td>
-                            <td class="text-center">{{ $author->name }}</td>
-                            <td class="text-center">{{ $author->email }}</td>
-                            <td class="text-center">{{ $author->phone_number }}</td>
-                            <td class="text-center">{{ $author->address }}</td>
-                            <td class="text-center">{{ date('H:i:s - d M Y', strtotime($author->created_at) )}}</td>
-                            <td class="text-center">{{ date('H:i:s - d M Y', strtotime($author->updated_at) )}}</td>
-                            <td>
-                                <a href="#" @click="editData( {{ $author }} )" class="btn btn-warning btn-sm">Edit</a>
-                                <a href="#" @click="deleteData({{ $author->id }})" class="btn btn-danger btn-sm">Delete</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+              <div id="tab1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                      <div class="dt-buttons btn-group flex-wrap">
+                        <button class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="button">
+                          <span>Copy</span>
+                        </button>
+                        <button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="example1" type="button">
+                          <span>CSV</span>
+                        </button>
+                        <button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button">
+                          <span>Excel</span>
+                        </button>
+                        <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button">
+                          <span>PDF</span>
+                        </button>
+                        <button class="btn btn-secondary buttons-print" tabindex="0" aria-controls="example1" type="button">
+                          <span>Print</span>
+                        </button>
+                        <div class="btn-group">
+                          <button class="btn btn-secondary buttons-collection dropdown-toggle buttons-colvis" tabindex="0" aria-controls="example1" type="button" aria-haspopup="true">
+                            <span>Column visibility</span>
+                            <span class="dt-down-arrow"></span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col-sm-12">  
+                    <table id="authortables" class="table table-bordered table-head-fixed table-striped">
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th class="text-center">Name</th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Phone Number</th>
+                                <th class="text-center">Address</th>
+                                <th class="text-center">Created At</th>
+                                <th class="text-center">Updated At</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        {{-- <tbody>
+                            @foreach ($authors as $key => $author)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td class="text-center">{{ $author->name }}</td>
+                                <td class="text-center">{{ $author->email }}</td>
+                                <td class="text-center">{{ $author->phone_number }}</td>
+                                <td class="text-center">{{ $author->address }}</td>
+                                <td class="text-center">{{ date('H:i:s - d M Y', strtotime($author->created_at) )}}</td>
+                                <td class="text-center">{{ date('H:i:s - d M Y', strtotime($author->updated_at) )}}</td>
+                                <td>
+                                    <a href="#" @click="editData( {{ $author }} )" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="#" @click="deleteData({{ $author->id }})" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody> --}}
+                    </table>
+                    </div>
+               </div>
+              </div>
             </div>
 
         </div>
@@ -127,6 +160,32 @@
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 <script type="text/javascript">
+    var actionUrl = '{{url ('authors') }}';
+    var apiUrl = '{{url ('api/authors') }}';
+
+    var columns = [
+        {data: 'id', class: 'text-center', orderable: true},
+        {data: 'name', class: 'text-center', orderable: true},
+        {data: 'email', class: 'text-center', orderable: true},
+        {data: 'phone_number', class: 'text-center', orderable: true},
+        {data: 'address', class: 'text-center', orderable: true},
+        {data: 'created_at', class: 'text-center', orderable: true},
+        {data: 'updated_at', class: 'text-center', orderable: true},
+        {render: function(index, row, data, meta){
+            console.log(meta.row);
+            return `
+            <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, ${meta.row})">
+                Edit
+            </a>
+            <a href="#" class="btn btn-danger btn-sm" onclick="controller.deleteData(event, ${data.id}))">
+                Delete
+            </a>`;
+        }, orderable: false, width: '200px', class: 'text-center'},
+    ];
+</script>
+<script src="{{ asset('js/data.js') }}"></script>
+
+{{-- <script type="text/javascript">
     $(function () {
     $("#authortables").DataTable();
     // $('#example2').DataTable({
@@ -139,9 +198,9 @@
     //   "responsive": true,
     // });
   });
-</script>
+</script> --}}
 <!-- CRUD -->
-<script type="text/javascript">
+{{-- <script type="text/javascript">
         var controller = new Vue({
             el: '#controller',
             data: {
@@ -175,5 +234,5 @@
                 }
             }
         });
-</script>
+</script> --}}
 @endsection
