@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('header', 'Catalog')
+@section('header', 'Author')
 
 @section('css')
 <!-- Datatables -->
@@ -58,7 +58,7 @@
                 </div> 
                 <div class="row">
                     <div class="col-sm-12">  
-                    <table id="authortables" class="table table-bordered table-head-fixed table-striped">
+                    <table id="dttables" class="table table-bordered table-head-fixed table-striped">
                         <thead>
                             <tr>
                                 <th>NO</th>
@@ -172,12 +172,12 @@
         {data: 'created_at', class: 'text-center', orderable: true},
         {data: 'updated_at', class: 'text-center', orderable: true},
         {render: function(index, row, data, meta){
-            console.log(meta.row);
+            // console.log(meta.row);
             return `
             <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, ${meta.row})">
                 Edit
             </a>
-            <a href="#" class="btn btn-danger btn-sm" onclick="controller.deleteData(event, ${data.id}))">
+            <a href="#" class="btn btn-danger btn-sm" onclick="controller.deleteData(event, ${data.id})">
                 Delete
             </a>`;
         }, orderable: false, width: '200px', class: 'text-center'},

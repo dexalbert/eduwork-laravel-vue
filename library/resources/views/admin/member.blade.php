@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('header', 'Publisher')
+@section('header', 'Member')
 
 @section('css')
 <!-- Datatables -->
@@ -14,7 +14,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <a href="#" @click="addData()" class="btn btn-success"> Create New Publisher</a>
+                <a href="#" @click="addData()" class="btn btn-success"> Create New Member</a>
                 <div class="card-tools">
                     <div class="input-group input-group-sm" style="width: 150px;">
                         <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -32,7 +32,7 @@
                     <thead>
                         <tr>
                             <th>NO</th>
-                            <th class="text-center">Name test</th>
+                            <th class="text-center">Name</th>
                             <th class="text-center">Email</th>
                             <th class="text-center">Phone Number</th>
                             <th class="text-center">Address</th>
@@ -53,7 +53,7 @@
         <div class="modal-content">
             <form method="post" :action="actionUrl" autocomplete="off">
                 <div class="modal-header">
-                    <h4 class="modal-title">Publisher</h4>
+                    <h4 class="modal-title">Member</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -63,23 +63,28 @@
                     <input type="hidden" name="_method" value="PUT" v-if="editStatus">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Enter Publisher Name"
+                        <input type="text" class="form-control" name="name" id="name" placeholder="Enter Member Name"
                             required="" :value="data.name">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <input type="gender" class="form-control" name="gender" id="gender"
+                            placeholder="Enter Member gender" required="" :value="data.gender">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" name="email" id="email"
-                            placeholder="Enter Publisher Email" required="" :value="data.email">
+                            placeholder="Enter Member Email" required="" :value="data.email">
                     </div>
                     <div class="form-group">
                         <label for="phone_number">Phone Number</label>
                         <input type="number" class="form-control" name="phone_number" id="phone_number"
-                            placeholder="Enter Publisher Phone Number" required="" :value="data.phone_number">
+                            placeholder="Enter Member Phone Number" required="" :value="data.phone_number">
                     </div>
                     <div class="form-group">
                         <label for="address">Address</label>
                         <input type="text" class="form-control" name="address" id="address"
-                            placeholder="Enter Publisher Address" required="" :value="data.address">
+                            placeholder="Enter Member Address" required="" :value="data.address">
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
@@ -110,8 +115,8 @@
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 <script type="text/javascript">
-    var actionUrl = '{{url ('publishers') }}';
-    var apiUrl = '{{url ('api/publishers') }}';
+    var actionUrl = '{{url ('members') }}';
+    var apiUrl = '{{url ('api/members') }}';
 
     var columns = [
         {data: 'id', class: 'text-center', orderable: true},
@@ -122,7 +127,7 @@
         {data: 'created_at', class: 'text-center', orderable: true},
         {data: 'updated_at', class: 'text-center', orderable: true},
         {render: function(index, row, data, meta){
-            // console.log(meta.row);
+            console.log(meta.row);
             return `
             <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, ${meta.row})">
                 Edit

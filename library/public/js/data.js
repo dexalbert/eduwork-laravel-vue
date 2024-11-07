@@ -13,7 +13,7 @@ var controller = new Vue({
     methods: {
         datatable(){
             const _this = this;
-            _this.table = $('#authortables').DataTable({
+            _this.table = $('#dttables').DataTable({
                 ajax: {
                     url: _this.apiUrl,
                     type: 'GET',
@@ -28,14 +28,14 @@ var controller = new Vue({
             this.editStatus = false;
             $('#modal-default').modal();
         },
-        editData(data) {
-            this.data = data;
+        editData(event, row) {
+            this.data = this.datas[row];
             this.editStatus = true;
             $('#modal-default').modal();
         },
         deleteData(event, id) {
             if (confirm("Are you sure?")) {
-                $(event.target).parents('tr').removed();
+                $(event.target).parents('tr').remove();
                 axios.post(this.actionUrl+'/'+id, {_method: 'DELETE'}).then(response => {
                     alert('Data has been removed');
                     location.reload();
