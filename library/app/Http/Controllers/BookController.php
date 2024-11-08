@@ -61,7 +61,7 @@ class BookController extends Controller
     
         Book::create($request->all());
 
-        return redirect()->route('books');
+        return redirect()->route('books.index');
     }
 
     /**
@@ -106,9 +106,9 @@ class BookController extends Controller
             'price' => 'required|max:11'
         ]);
     
-        Book::update($request->all());
+        $book->update($request->all());
 
-        return redirect()->route('books');
+        return redirect()->route('books.index');
     }
 
     /**

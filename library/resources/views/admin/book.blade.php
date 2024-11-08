@@ -41,7 +41,7 @@
     <div class="modal fade" id="modal-default">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="post" action="" autocomplete="off">
+                <form method="post" :action="actionUrl" autocomplete="off">
                     <div class="modal-header">
                         <h4 class="modal-title">Book</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -51,7 +51,7 @@
                     <div class="modal-body">
                         @csrf
 
-                        <input type="hidden" name="method" value="PUT" v-if="editStatus">
+                        <input type="hidden" name="_method" value="PUT" v-if="editStatus">
 
                         <div class="form-group">
                             <label>ISBN</label>
@@ -121,7 +121,8 @@
             books: [],
             search: '',
             book: {},
-            editStatus: false
+            editStatus: false,
+            actionUrl
         },
         mounted: function () {
             this.get_books();
@@ -148,7 +149,7 @@
             },
             editData(book){
                 this.book = book;
-                this.actionUrl = '{{ url('books') }}'+'/'+data.id;
+                this.actionUrl = '{{ url('books') }}'+'/'+book.id;
                 this.editStatus = true;
                 $('#modal-default').modal();
             },
