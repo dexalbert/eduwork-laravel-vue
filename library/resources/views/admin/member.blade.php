@@ -124,8 +124,8 @@
         {data: 'email', class: 'text-center', orderable: true},
         {data: 'phone_number', class: 'text-center', orderable: true},
         {data: 'address', class: 'text-center', orderable: true},
-        {data: 'created_at', class: 'text-center', orderable: true},
-        {data: 'updated_at', class: 'text-center', orderable: true},
+        {data: 'date_created', class: 'text-center', orderable: true},
+        {data: 'date_updated', class: 'text-center', orderable: true},
         {render: function(index, row, data, meta){
             console.log(meta.row);
             return `
